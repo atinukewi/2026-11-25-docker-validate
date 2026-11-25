@@ -35,12 +35,6 @@ COPY pyproject.toml uv.lock .python-version ./
 # --locked: stop if uv.lock doesn't match pyproject.toml
 RUN uv sync --locked
 
-# R packages in /opt/renv/library
-RUN echo "RENV_PATHS_LIBRARY=/opt/renv/library" >> /usr/local/lib/R/etc/Renviron.site
-COPY renv.lock .Rprofile ./
-COPY renv/activate.R renv/
-RUN Rscript -e "renv::restore()"
-
 # For linux laptops:
 # StrictModes no: sshd wants root to own the key file,
 # but on Linux the mounted one is yours
